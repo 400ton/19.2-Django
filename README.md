@@ -21,4 +21,5 @@ pip install -r requirements.txt
 ```ini
 python manage.py runserver
 ```
+- Для остановки локального сервера используйте Сtrl+С в терминале
  
