@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import datetime
 
 
 def home(request):
@@ -10,8 +11,9 @@ def contacts(request):
         name = request.POST.get('name')
         telephone = request.POST.get('phone')
         message = request.POST.get('message')
-        with open('feedback.txt', 'w') as file:
-            file.write(f'{name},{telephone}, {message}')
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        with open('feedback.txt', 'a') as file:
+            file.write(f'{timestamp}, {name},{telephone}: {message}\n')
 
     return render(request, 'catalog/contacts.html')
 
