@@ -22,11 +22,10 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name="Цена продукта",**NULLABLE)
     created_at = models.DateField(verbose_name="Дата создания", **NULLABLE)
     updated_at = models.DateField(verbose_name="Дата изменения", **NULLABLE)
-    manufactured_at = models.DateField(verbose_name="Дата производства продукта", **NULLABLE)
 
     def __str__(self):
         # Строковое отображение объекта
-        return f'{self.name} {self.description}'
+        return f'{self.name} {self.description} {self.preview} {self.category} {self.price} {self.created_at} {self.updated_at}'
 
     class Meta:
         verbose_name = 'Продукт'  # Настройка для наименования одного объекта
