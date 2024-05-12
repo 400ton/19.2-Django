@@ -22,6 +22,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name="Цена продукта",**NULLABLE)
     created_at = models.DateField(verbose_name="Дата создания", **NULLABLE)
     updated_at = models.DateField(verbose_name="Дата изменения", **NULLABLE)
+    manufactured_at = models.DateField(verbose_name="Дата производства продукта", **NULLABLE)
 
     def __str__(self):
         # Строковое отображение объекта
