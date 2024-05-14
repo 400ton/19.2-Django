@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-
+from django.db import connection
 from catalog.function.fixture import open_fixture
 from catalog.models import Category, Product
 
@@ -20,6 +20,11 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
+
+        with connection.cursor() as cursor:
+            cursor.execute(f"TRUNCATE TABLE catalog_category RESTART IDENTITY CASCADE;")
+            cursor.execute(f"TRUNCATE TABLE catalog_product RESTART IDENTITY CASCADE;")
+
         Product.objects.all().delete()
         Category.objects.all().delete()
 
@@ -36,10 +41,8 @@ class Command(BaseCommand):
                         created_at=product.get("created_at"),
                         updated_at=product.get("updated_at"),
                         description=product.get("description"),
-                        category=Category.objects.get(pk=product.get("category") + 3))
-            )
-
-            print(product.get("category"))
+                        category=Category.objects.get(pk=product.get("category"))
+            ))
 
 
         Product.objects.bulk_create(product_for_create)

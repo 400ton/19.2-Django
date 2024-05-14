@@ -8,7 +8,7 @@ class Category(models.Model):
     description = models.TextField(verbose_name="Описание категории", **NULLABLE)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
     class Meta:
         verbose_name = "Категория"
@@ -25,7 +25,7 @@ class Product(models.Model):
 
     def __str__(self):
         # Строковое отображение объекта
-        return f'{self.name} {self.description} {self.preview} {self.category} {self.price} {self.created_at} {self.updated_at}'
+        return f'{self.name} {self.description} {self.preview} {self.category} {self.price}'
 
     class Meta:
         verbose_name = 'Продукт'  # Настройка для наименования одного объекта
