@@ -36,7 +36,7 @@
                         <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                              <img src="{{ object.preview|media_filter }}" style="max-height: 125px;" class="card-img-top" alt="Продукт">
                         </ul>
-                        <a class="p-2 btn btn-outline-primary" href="/info_product">О продукте</a>
+                        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:info_product' object.pk %}">О продукте</a>
                     </div>
                 </div>
             </div>
