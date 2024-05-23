@@ -21,8 +21,9 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <img src="{{ object.preview|media_filter }}" style="max-height: 125px;" class="card-img-top"
+                        <img src="{{ object.preview|media_filter }}" style="...    " class="card-img-top"
                              alt="Продукт">
+                        <p class="text pt-md-3">{{ object.description|truncatechars:50 }}</p>
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:info_product' object.pk %}">О
                         продукте</a>
