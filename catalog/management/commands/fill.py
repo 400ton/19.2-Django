@@ -18,7 +18,6 @@ class Command(BaseCommand):
         list_products = [item.get("fields") for item in file if item.get("model") == "catalog.product"]
         return list_products
 
-
     def handle(self, *args, **options):
 
         with connection.cursor() as cursor:
@@ -42,7 +41,6 @@ class Command(BaseCommand):
                         updated_at=product.get("updated_at"),
                         description=product.get("description"),
                         category=Category.objects.get(pk=product.get("category"))
-            ))
-
+                        ))
 
         Product.objects.bulk_create(product_for_create)

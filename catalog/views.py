@@ -1,28 +1,30 @@
-from django.shortcuts import render, get_object_or_404
 from catalog.models import Product
+from django.views.generic import ListView, DetailView, TemplateView
 import datetime
 
 
-def home(request):
-    return render(request, 'catalog/home.html')
+class HomeTemplateView(TemplateView):
+    template_name = "catalog/home.html"
 
 
-def contacts(request):
-    if request.method == 'POST':
+class ContactsTemplateView(TemplateView):
+    template_name = 'catalog/contacts.html'
+
+    def post(self, request, *args, **kwargs):
         name = request.POST.get('name')
-        telephone = request.POST.get('phone')
+        phone = request.POST.get('phone')
         message = request.POST.get('message')
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         with open('feedback.txt', 'a') as file:
-            file.write(f'{timestamp}, {name},{telephone}: {message}\n')
-
-    return render(request, 'catalog/contacts.html')
-def catalog(request):
-    product_list = Product.objects.all()
-    context = {'objects_list': product_list}
-    return render(request, 'catalog/catalog_product.html', context)
+            file.write(f'{timestamp}, {phone}, {name}: {message}\n')
+        return super().get(request, *args, **kwargs)
 
 
-def info_product(request, pk):
-    context = {'object': get_object_or_404(Product, pk=pk)}
-    return render(request, "catalog/info_product.html", context)
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/catalog_product.html'
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/info_product.html'
