@@ -18,7 +18,7 @@ class BlogDetailView(DetailView):
     template_name = 'blog/blog_detail.html'
 
     def __init__(self, **kwargs):
-        super().__init__(kwargs)
+        super().__init__(**kwargs)
         self.object = None
 
     @staticmethod

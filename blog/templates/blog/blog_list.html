@@ -18,7 +18,7 @@
                                     <p class="text pt-md-3">{{ object.content|truncatechars:50 }}</p>
                                 {% else %}
                                     <p class="text pt-md-3">{{ object.content|truncatechars:50 }}</p>
-                                    <p class="text pt-md-3">{{ object.sign_publication }}</p>
+                                    <p class="text pt-md-3">Просмотры: {{ object.sign_publication }}</p>
                                 {% endif %}
                             </ul>
                             <a class="p-2 btn btn-outline-primary" href="{% url 'blog:detail' object.slug %}">Подробнее</a>
