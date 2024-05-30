@@ -9,8 +9,8 @@
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <p>Хотите удалить материал "{{ object.title }}"?</p>
-                            <button type="submit" class="btn btn-danger">Да</button>
-                            <button type="submit" href="{% url 'blog:list' %}"class="btn btn-warning">Нет</button>
+                            <button type="submit" class="p-2 btn btn-danger">Да</button>
+                            <a class="p-2 btn btn-warning" href="{% url 'blog:list' %}">Нет</a>
                         </form>
                     </div>
                 </div>
