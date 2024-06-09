@@ -3,7 +3,7 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">Главная</h5>
     <nav class="ms-5">
         <a class="p-2 btn btn-outline-primary" href="/">Главная</a>
-        <a class="p-2 btn btn-outline-primary" href="/catalog_product">Каталог товаров</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:list' %}">Каталог товаров</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'blog:list' %}">Блог</a>
     </nav>
 </div>

@@ -3,8 +3,10 @@
 {% load my_tags %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4 pb-md-2">{{ object.name }}</h1>
-    <img src="{{ object.preview|media_filter }}" style="max-height: 300px; max-width: 300px;" class="card-img-top"
+    {% if object.preview%}
+        <img src="{{ object.preview|media_filter }}" style="max-height: 300px; max-width: 300px;" class="card-img-top"
                              alt="Продукт">
+    {% endif %}
     <p class="lead pt-md-3">{{ object.description }}</p>
 </div>
 {% endblock %}

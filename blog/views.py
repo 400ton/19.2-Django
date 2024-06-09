@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from blog.models import Blog
 
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from pytils.translit import slugify
 
@@ -57,7 +57,6 @@ class BlogCreateView(CreateView):
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ('title', 'content', 'preview',)
-    success_url = reverse_lazy('blog:list')
 
     def form_valid(self, form):
         if form.is_valid():

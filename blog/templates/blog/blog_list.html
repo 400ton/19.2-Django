@@ -21,8 +21,12 @@
                                     <p class="text pt-md-3">Просмотры: {{ object.sign_publication }}</p>
                                 {% endif %}
                             </ul>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:detail' object.slug %}">Подробнее</a>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:delete' object.slug %}">Удалить</a>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:detail' object.pk %}">Подробнее</a>
+                            <span class="my-1"></span>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:update' object.pk %}">Изменить</a>
+                            <span class="my-1"></span>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:delete' object.pk %}">Удалить</a>
+                            <span class="my-1"></span>
                             <a class="p-2 btn btn-outline-primary" href="{% url 'blog:create' %}">Новая запись</a>
                         </div>
                     </div>
