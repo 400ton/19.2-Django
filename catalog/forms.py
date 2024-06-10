@@ -1,6 +1,6 @@
 from django.forms import ModelForm, forms
 
-from catalog.models import Product
+from catalog.models import Product, Version
 
 forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа',
                    'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
@@ -24,6 +24,7 @@ class ProductForm(StyleFormsMixin, ModelForm):
             raise forms.ValidationError(f'Cлова {", ".join(forbidden_words)} запрещены')
         return name
 
+    @property
     def clean_description(self):
         description = self.cleaned_data['description']
         for word in forbidden_words:
@@ -31,3 +32,8 @@ class ProductForm(StyleFormsMixin, ModelForm):
                 raise forms.ValidationError(f'Cлова {", ".join(forbidden_words)} запрещены')
             else:
                 return description
+
+
+class VersionForm(ModelForm):
+    model = Version
+    fields = '__all__'

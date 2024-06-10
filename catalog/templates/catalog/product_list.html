@@ -3,7 +3,7 @@
 {% load my_tags %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Продукты</h1>
-        <hr>
+    <hr>
     <a class="p-2 btn btn-primary" href="{% url 'catalog:create' %}">Добавить продукт</a>
 </div>
 
@@ -18,16 +18,19 @@
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         {% if object.preview %}
-                            <img src="{{ object.preview|media_filter }}" style="...    " class="card-img-top"
-                                alt="Продукт">
+                        <img src="{{ object.preview|media_filter }}" style="...    " class="card-img-top"
+                             alt="Продукт">
                         {% endif %}
-                            <p class="text pt-md-3">{{ object.description|truncatechars:50 }}</p>
+                        <p class="text pt-md-3">{{ object.description|truncatechars:50 }}</p>
+
+                        {% for version in object.version_set.all %}
+                        {% if version.number %}
+                        <p>Версия: {{version.name }} - {{version.number }}</p>
+                        {% endif %}
+                        {% endfor %}
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">О
                         продукте</a>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete' object.pk %}">Удалить</a>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">Редактировать</a>
-
                 </div>
             </div>
         </div>
