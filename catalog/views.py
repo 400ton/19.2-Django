@@ -25,10 +25,7 @@ class ContactsTemplateView(TemplateView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    fields = '__all__'
-
-    def get_success_url(self):
-        return reverse('catalog:list', args=[self.kwargs.get('pk')])
+    success_url = reverse_lazy('catalog:list')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,5 +52,4 @@ class ProductDetailView(DetailView):
 
 class ProductDeleteView(DeleteView):
     model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('catalog:product_detail')
+    success_url = reverse_lazy('catalog:list')

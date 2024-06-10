@@ -16,19 +16,18 @@ class StyleFormsMixin:
 class ProductForm(StyleFormsMixin, ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at',)
 
-    def clean_product_name(self):
-        clean_data = self.cleaned_data.get['name']
-        if clean_data in forbidden_words:
-            raise forms.ValidationError(f'Cлова {forbidden_words} запрещены')
-        else:
-            return clean_data
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if any(word in name for word in forbidden_words):
+            raise forms.ValidationError(f'Cлова {", ".join(forbidden_words)} запрещены')
+        return name
 
-    def clean_product_description(self):
-        clean_data = self.cleaned_data.get['description']
-        if clean_data in forbidden_words:
-            raise forms.ValidationError(f'Cлова {forbidden_words} запрещены')
-        else:
-            return clean_data
-
+    def clean_description(self):
+        description = self.cleaned_data['description']
+        for word in forbidden_words:
+            if word in description.lower():
+                raise forms.ValidationError(f'Cлова {", ".join(forbidden_words)} запрещены')
+            else:
+                return description

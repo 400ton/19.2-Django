@@ -25,6 +25,8 @@
                     </ul>
                     <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">О
                         продукте</a>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete' object.pk %}">Удалить</a>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">Редактировать</a>
 
                 </div>
             </div>
