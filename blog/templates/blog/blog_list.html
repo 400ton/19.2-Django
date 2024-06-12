@@ -4,38 +4,38 @@
 <div class="container">
     <div class="row text-center">
         {% if object_list %}
-            {% for object in object_list %}
-                <div class="col-3">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                                {% if object.preview %}
-                                    <img src="{{ object.preview|media_filter }}" style="" class="card-img-top"
-                                        alt="Изображение">
-                                    <p class="text pt-md-3">{{ object.content|truncatechars:50 }}</p>
-                                {% else %}
-                                    <p class="text pt-md-3">{{ object.content|truncatechars:50 }}</p>
-                                    <p class="text pt-md-3">Просмотры: {{ object.sign_publication }}</p>
-                                {% endif %}
-                            </ul>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:detail' object.pk %}">Подробнее</a>
-                            <span class="my-1"></span>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:update' object.pk %}">Изменить</a>
-                            <span class="my-1"></span>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:delete' object.pk %}">Удалить</a>
-                            <span class="my-1"></span>
-                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:create' %}">Новая запись</a>
-                        </div>
-                    </div>
+        {% for object in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="text-center">
-                <a class="btn btn-primary" href="{% url 'blog:create' %}">Создать новую запись</a>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        {% if object.preview %}
+                        <img src="{{ object.preview|media_filter }}" style="" class="card-img-top"
+                             alt="Изображение">
+                        <div class="text pt-md-3">{{ object.content|truncatechars:50 }}</div>
+                        {% else %}
+                        <div class="text pt-md-3">{{ object.content|truncatechars:50 }}</div>
+                        <div class="text pt-md-3">Просмотры: {{ object.sign_publication }}</div>
+                        {% endif %}
+                    </ul>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'blog:detail' object.pk %}">Подробнее</a>
+                    <span class="my-1"></span>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'blog:update' object.pk %}">Изменить</a>
+                    <span class="my-1"></span>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'blog:delete' object.pk %}">Удалить</a>
+                    <span class="my-1"></span>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'blog:create' %}">Новая запись</a>
+                </div>
             </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center">
+            <a class="btn btn-primary" href="{% url 'blog:create' %}">Создать новую запись</a>
+        </div>
         {% endif %}
 
     </div>

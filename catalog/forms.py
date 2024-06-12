@@ -24,7 +24,6 @@ class ProductForm(StyleFormsMixin, ModelForm):
             raise forms.ValidationError(f'Cлова {", ".join(forbidden_words)} запрещены')
         return name
 
-    @property
     def clean_description(self):
         description = self.cleaned_data['description']
         for word in forbidden_words:

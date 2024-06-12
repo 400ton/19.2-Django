@@ -1,9 +1,9 @@
-from django.forms import inlineformset_factory, BaseInlineFormSet
+from django.forms import inlineformset_factory
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 import datetime
 
 
@@ -56,6 +56,10 @@ class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:list')
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.object = None
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
