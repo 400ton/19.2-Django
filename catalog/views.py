@@ -1,10 +1,11 @@
+import datetime
+
 from django.forms import inlineformset_factory
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
-from django.urls import reverse_lazy
-import datetime
 
 
 class HomeTemplateView(TemplateView):
