@@ -1,12 +1,12 @@
 import secrets
 
-from django.conf.global_settings import EMAIL_HOST_USER
 from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView
 
+from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 
@@ -26,7 +26,7 @@ class RegisterView(CreateView):
         user.verification_code = verification_code
         user.save()
         host = self.request.get_host()
-        url = f'https://{host}/users/email.confirm/{verification_code}'
+        url = f'http://{host}/users/email.confirm/{verification_code}'
         send_mail(
             subject='Подтверждение почты',
             message=f'Для подтверждения почты перейдите по ссылке: {url}',
@@ -37,9 +37,9 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-def email_confirm(request, verification_code):
+def email_confirm(request):
     verification_code = request.POST.get('verification_code')
-    user = get_object_or_404(User, verification_code=verification_code)
+    user = get_object_or_404(User, verification_code)
     if user:
         user.is_active = True
         user.save()

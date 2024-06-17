@@ -12,6 +12,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('reset-pass/', ResetPassword.as_view(), name='reset_pass'),
-    path('email-confirm/<str:verification_code>/', email_confirm, name='email_confirm'),
+    path('email.confirm/<str:verification_code>/', email_confirm, name='email_confirm'),
 
 ]
