@@ -1,10 +1,12 @@
 import secrets
 
+from django.contrib import messages
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import CreateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm, UserProfileForm
@@ -48,28 +50,34 @@ def email_confirm(request):
         return redirect(reverse_lazy('users:register'))
 
 
-class ResetPassword(TemplateView):
+class GeneratePasswordView(PasswordResetView):
     form_class = PasswordResetForm
     success_url = reverse_lazy('users:login')
-
-    def get_template_names(self):
-        return 'users/reset_password.html'
 
     def form_valid(self, form):
         if form.is_valid():
             email = form.cleaned_data['email']
-            user = User.objects.get(email=email)
-            if user:
+            try:
+                user = User.objects.get(email=email)
                 password = User.objects.make_random_password(length=8)
                 user.set_password(password)
                 user.save()
                 send_mail(
                     'Смена пароля',
+                    f'Здраствуйте.Вы запросили генерацию нового пароля для локального сайта. '
                     f'Ваш новый пароль: {password}',
                     from_email=EMAIL_HOST_USER,
                     recipient_list=[user.email],
                 )
-            return redirect(reverse("users:login"))
+                return redirect(reverse("users:login"))
+            except User.DoesNotExist:
+                # Пользователь не найден, возможно, стоит отправить сообщение об ошибке
+                messages.error(self.request, "Такого пользователя не существует.")
+                return redirect(reverse("users:reset_password"))
+        else:
+            # Форма не валидна, возможно, стоит отобразить сообщение об ошибке
+            messages.error(self.request, "Произошла ошибка при генерации пароля.")
+            return super().form_invalid(form)
 
 
 class ProfileView(UpdateView):
