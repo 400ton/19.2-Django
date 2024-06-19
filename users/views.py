@@ -38,15 +38,13 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-def email_confirm(request, verification_code):
+def email_verification(request, verification_code):
     verification_code = request.POST.get('verification_code')
     user = get_object_or_404(User, verification_code=verification_code)
     if user:
         user.is_active = True
         user.save()
-        return redirect(reverse_lazy('users:login'))
-    else:
-        return redirect(reverse_lazy('users:register'))
+        return redirect(reverse("users:login"))
 
 
 class GeneratePasswordView(PasswordResetView):
