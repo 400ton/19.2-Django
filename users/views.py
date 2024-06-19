@@ -18,7 +18,6 @@ class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
-    success_message = 'Вы успешно зарегистрировались'
 
     def form_valid(self, form):
         user = form.save()
@@ -39,9 +38,9 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-def email_confirm(request):
+def email_confirm(request, verification_code):
     verification_code = request.POST.get('verification_code')
-    user = get_object_or_404(User, verification_code)
+    user = get_object_or_404(User, verification_code=verification_code)
     if user:
         user.is_active = True
         user.save()
@@ -64,18 +63,16 @@ class GeneratePasswordView(PasswordResetView):
                 user.save()
                 send_mail(
                     'Смена пароля',
-                    f'Здраствуйте.Вы запросили генерацию нового пароля для локального сайта. '
+                    f'Здравствуйте.Вы запросили генерацию нового пароля для локального сайта. '
                     f'Ваш новый пароль: {password}',
                     from_email=EMAIL_HOST_USER,
                     recipient_list=[user.email],
                 )
                 return redirect(reverse("users:login"))
             except User.DoesNotExist:
-                # Пользователь не найден, возможно, стоит отправить сообщение об ошибке
                 messages.error(self.request, "Такого пользователя не существует.")
                 return redirect(reverse("users:reset_password"))
         else:
-            # Форма не валидна, возможно, стоит отобразить сообщение об ошибке
             messages.error(self.request, "Произошла ошибка при генерации пароля.")
             return super().form_invalid(form)
 
