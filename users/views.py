@@ -39,7 +39,6 @@ class RegisterView(CreateView):
 
 
 def email_verification(request, verification_code):
-    verification_code = request.POST.get('verification_code')
     user = get_object_or_404(User, verification_code=verification_code)
     if user:
         user.is_active = True
