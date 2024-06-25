@@ -1,11 +1,12 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import inlineformset_factory
+from django.core.exceptions import PermissionDenied
+from django.forms import inlineformset_factory, ModelForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, StyleFormsMixin
 from catalog.models import Product, Version
 
 
@@ -45,6 +46,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class ProductModeratorForm(StyleFormsMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ['description', 'category', 'is_published']
+
+
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/product_list.html'
@@ -82,6 +89,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if (user.has_perm('catalog.cancellation_of_publication') and user.has_perm('catalog.changes_the_description')
+                and user.has_perm('catalog.changes_the_category')):
+            return ProductModeratorForm
+        raise PermissionDenied
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
@@ -89,3 +105,11 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     login_url = "users:login"
     redirect_field_name = "redirect_to"
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if (user.has_perm('cancellation_of_publication') and user.has_perm('changes_the_description')
+                and user.has_perm('changes_the_category')):
+            return ProductModeratorForm
+        raise PermissionDenied

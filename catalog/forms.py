@@ -16,7 +16,7 @@ class StyleFormsMixin:
 class ProductForm(StyleFormsMixin, ModelForm):
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at',)
+        exclude = ('created_at', 'updated_at', 'is_published', 'owner')
 
     def clean_name(self):
         name = self.cleaned_data['name']

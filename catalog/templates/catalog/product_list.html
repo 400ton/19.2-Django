@@ -10,6 +10,7 @@
 <div class="container">
     <div class="row text-center">
         {% for object in object_list %}
+        {% if object.is_published %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -24,16 +25,16 @@
                         <p class="text pt-md-3">{{ object.description|truncatechars:50 }}</p>
 
                         {% for version in object.version_set.all %}
-                        {% if version.number %}
-                        <p>Версия: {{version.name }} - {{version.number }}</p>
-                        {% endif %}
+                            {% if version.number %}
+                                <p>Версия: {{version.name }} - {{version.number }}</p>
+                            {% endif %}
                         {% endfor %}
                     </ul>
-                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">О
-                        продукте</a>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:detail' object.pk %}">О продукте</a>
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

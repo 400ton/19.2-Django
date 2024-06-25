@@ -8,10 +8,13 @@
                              alt="Продукт">
     {% endif %}
     <p class="lead pt-md-3">{{ object.description }}</p>
+
     {% if object.price %}
-    <p class="lead pt-md-3">Цена: {{ object.price }} р</p>
+        <p class="lead pt-md-3">Цена: {{ object.price }} р</p>
     {% endif %}
-    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete' object.pk %}">Удалить</a>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:update' object.pk %}">Редактировать</a>
+    {% if user == object.owner or perms.catalog.cancellation_of_publication and perms.catalog.changes_the_description and perms.catalog.changes_the_category %}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:update' object.pk %}">Редактировать</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete' object.pk %}">Удалить</a>
+    {% endif %}
 </div>
 {% endblock %}
