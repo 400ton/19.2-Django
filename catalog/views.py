@@ -7,7 +7,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
 
 from catalog.forms import ProductForm, VersionForm, StyleFormsMixin
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
+from config.services import get_cached_data
 
 
 class HomeTemplateView(TemplateView):
@@ -55,6 +56,9 @@ class ProductModeratorForm(StyleFormsMixin, ModelForm):
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/product_list.html'
+
+    def get_queryset(self):
+        return get_cached_data(self.model)
 
 
 class ProductDetailView(DetailView):
@@ -113,3 +117,16 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
                 and user.has_perm('changes_the_category')):
             return ProductModeratorForm
         raise PermissionDenied
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'catalog/category_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Категории продуктов'
+        return context
+
+    def get_queryset(self):
+        return get_cached_data(self.model)
